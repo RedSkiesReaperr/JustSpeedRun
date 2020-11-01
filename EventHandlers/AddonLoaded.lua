@@ -11,11 +11,7 @@ function AddonLoadedHandler()
 	local timerValues = nil
 	f:SetScript("OnUpdate", function(self, elap)
 		if JSRTimerElapsed ~= nil and elapsed <= 0 then
-			elapsed = JSRTimerElapsed
-			hours = JSRTimerHours
-			mins = JSRTimerMins
-			sec = JSRTimerSecs
-			ms = JSRTimerMss		
+			elapsed, hours, mins, sec, ms = JSRTimerElapsed, JSRTimerHours, JSRTimerMins, JSRTimerSecs, JSRTimerMss
 		end
 
 		if JSRTimerStatus == JSRStatus.STARTED then
@@ -23,11 +19,7 @@ function AddonLoadedHandler()
 			currCount = elapsed
 
 			timerValues = Timer_GetFromSeconds(elapsed)
-			currCount = timerValues.currCount
-			hours = timerValues.hours
-			mins = timerValues.mins
-			sec = timerValues.secs
-			ms = timerValues.mss
+			currCount, hours, mins, sec, ms = timerValues.currCount, timerValues.hours, timerValues.mins, timerValues.secs, timerValues.mss
 
 			Timer_SyncUsing(elapsed, hours, mins, sec, ms)
 			dataobj.text = Timer_ToString(hours, mins, sec, ms)
@@ -63,12 +55,9 @@ function AddonLoadedHandler()
 	end
 
 	function OnLevelUp(passed_lvl)
-		local tmpHours = hours
-		local tmpMins = mins
-		local tmpSec = sec
-		local tmpMs = ms
+		local tmpHours, tmpMins, tmpSec, tmpMs = hours, mins, sec, ms
 	
-		--Timer_Reset()
+		Timer_Reset()
 		local newLvl = { 
 			lvl = passed_lvl,
 			hours = tmpHours,

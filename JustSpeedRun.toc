@@ -4,7 +4,6 @@
 ## Author: RedSkiesReaperr
 ## Version: 1.0.0
 ## SavedVariables: JSRTimes, JSRTimerStatus, JSRTimerElapsed, JSRTimerHours, JSRTimerMins, JSRTimerSecs, JSRTimerMss
-## Dependencies: Ace3
 
 ## X-Category: Quests & Leveling
 ## X-Website: https://www.curseforge.com/wow/addons/justspeedrun
