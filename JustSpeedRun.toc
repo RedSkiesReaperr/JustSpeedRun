@@ -1,0 +1,25 @@
+## Interface: 90001
+## Title: JustSpeedRun
+## Notes: 
+## Author: RedSkiesReaperr
+## Version: 0.0.1
+## SavedVariables: JSRTimes, JSRTimerStatus
+## Dependencies: Ace3
+
+## X-Category: Quests & Leveling
+## X-Website: https://www.curseforge.com/wow/addons/justspeedrun
+## X-Curse-Project-ID: 416744
+## X-License: All Rights Reserved
+
+# Utils
+Utils/Log.lua
+
+# Classes
+Classes/Timer.lua
+
+# EventHandlers
+EventHandlers/AddonLoaded.lua
+
+# Main Frame
+JustSpeedRun.xml
+JustSpeedRun.lua

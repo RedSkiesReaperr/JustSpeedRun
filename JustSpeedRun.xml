@@ -1,0 +1,13 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Script file="JustSpeedRun.lua" />
+	<Frame name="JustSpeedRunFrame">
+		<Scripts>
+			<OnLoad>
+				JustSpeedRunFrame_OnLoad(self);
+			</OnLoad>
+			<OnEvent>
+				JustSpeedRunFrame_OnEvent(self, event, ...);
+			</OnEvent>
+		</Scripts>
+	</Frame>
+</Ui>
