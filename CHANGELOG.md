@@ -1,5 +1,9 @@
 # Changelogs
 
+## 1.1.0 (2020-11-01)
+
+- Variables now saved as SavedVariablesPerCharacter instead of SavedVariables 
+
 ## 1.0.0 (2020-11-01)
 
 - Timer can now be started
