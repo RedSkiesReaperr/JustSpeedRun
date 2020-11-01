@@ -2,8 +2,8 @@
 ## Title: JustSpeedRun
 ## Notes: 
 ## Author: RedSkiesReaperr
-## Version: 0.0.1
-## SavedVariables: JSRTimes, JSRTimerStatus
+## Version: 1.0.0
+## SavedVariables: JSRTimes, JSRTimerStatus, JSRTimerElapsed, JSRTimerHours, JSRTimerMins, JSRTimerSecs, JSRTimerMss
 ## Dependencies: Ace3
 
 ## X-Category: Quests & Leveling

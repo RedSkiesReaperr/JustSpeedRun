@@ -7,13 +7,10 @@ local lvl = 1 --TODO: Used for tests, remove it
 SLASH_JUST_SPEED_RUN1 = '/jsr'
 SlashCmdList['JUST_SPEED_RUN'] = function(msg, editbox)
 	if msg == "start" then
-		Log("Start")
 		Timer_Start()
 	elseif msg == "pause" then
-		Log("Pause")
 		Timer_Pause()
 	elseif msg == "stop" then
-		Log("STOP")
 		Timer_Stop()
 	elseif msg == "lvl" then --TODO: Used for tests, remove it
 		local i = 1
@@ -33,6 +30,7 @@ end
 function JustSpeedRunFrame_OnLoad(self)
 	self:RegisterEvent("ADDON_LOADED")
 	self:RegisterEvent("PLAYER_ENTERING_WORLD")
+	-- PLAYER_LEAVING_WORLD
 	self:RegisterEvent("PLAYER_LEVEL_UP")
 end
 
@@ -61,5 +59,8 @@ function JustSpeedRunFrame_OnEvent(self, event, ...)
 	if event == "PLAYER_LEVEL_UP" then
 		local level = ...
 
+		if JSRTimerStatus == JSRStatus.STARTED then
+			OnLevelUp(level)
+		end
 	end
 end
