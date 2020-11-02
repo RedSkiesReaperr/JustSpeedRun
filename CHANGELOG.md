@@ -2,7 +2,10 @@
 
 ## 1.1.0 (2020-11-01)
 
-- Variables now saved as SavedVariablesPerCharacter instead of SavedVariables 
+- Add missing libs
+- Timer can now be started/paused/stopped/resetted by clicking on dataobject representations (TitanPanel, etc...)
+- Improve dataobject display style
+- Variables now saved as SavedVariablesPerCharacter instead of SavedVariables
 
 ## 1.0.0 (2020-11-01)
 

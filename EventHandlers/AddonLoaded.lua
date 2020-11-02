@@ -1,6 +1,12 @@
 function AddonLoadedHandler()
 	local ldb = LibStub:GetLibrary('LibDataBroker-1.1')
-	local dataobj = ldb:NewDataObject("JustSpeedRun", {type = "data source", text = "timer"})
+	local dataobj = ldb:NewDataObject("JustSpeedRun", {
+		type = "data source",
+		text = "timer",
+		OnClick = function(clickedframe, button)
+			OnClickDataObj(button)
+		end
+	})
 	local f = CreateFrame("frame")
 	local elapsed, currCount, hours, mins, sec, ms = 0
 
@@ -31,10 +37,22 @@ function AddonLoadedHandler()
 	end)
 
 	function dataobj:OnTooltipShow()
+		self:SetMinimumWidth(250)
+
 		self:AddLine("JustSpeedRun")
+		self:AddLine(" ")
+
+		self:AddDoubleLine("Left click", "Start/Pause timer", 0, 0.7, 0.8, 0, 0.7, 0.8)
+		self:AddDoubleLine("Right click", "Stop timer", 0, 0.7, 0.8, 0, 0.7, 0.8)
+		self:AddDoubleLine("Middle click", "Stop & immediatly restart timer", 0, 0.7, 0.8, 0, 0.7, 0.8)
+		self:AddLine(" ")
 
 		for k, v in ipairs(JSRTimes) do
-			self:AddLine(string.format( "Lvl %d: %s", v.lvl, v.time))
+			if v.lvl % 5 == 0 then
+				self:AddDoubleLine(string.format("Lvl %d:", v.lvl), string.format( "%s", v.time), 1, 0.82, 0, 1, 0.82, 0)
+			else
+				self:AddDoubleLine(string.format("Lvl %d:", v.lvl), string.format( "%s", v.time), 0.69, 0.59, 0.17, 0.69, 0.59, 0.17)
+			end
 		end
 	end
 
@@ -50,13 +68,37 @@ function AddonLoadedHandler()
 		GameTooltip:Hide()
 	end
 
+	function OnClickDataObj(button)
+		if button == "LeftButton" then
+			if JSRTimerStatus == JSRStatus.STARTED then
+				Timer_Pause()
+			else
+				Timer_Start()
+			end
+		elseif button == "RightButton" then
+			if JSRTimerStatus ~= JSRStatus.STOPPED then
+				Timer_Stop()
+			end
+		elseif button == "MiddleButton" then
+			if JSRTimerStatus ~= JSRStatus.STOPPED then
+				Timer_Stop()
+			end
+
+			Timer_Start()
+		end
+	end
+
 	function ResetTmpTimerVars()
 		elapsed, currCount, hours, mins, sec, ms = 0
 	end
 
 	function OnLevelUp(passed_lvl)
+		if (passed_lvl >= 60) then -- If player reached the maximum level
+			Timer_Pause()
+		end
+
 		local tmpHours, tmpMins, tmpSec, tmpMs = hours, mins, sec, ms
-	
+
 		Timer_Reset()
 		local newLvl = { 
 			lvl = passed_lvl,

@@ -1,8 +1,8 @@
 ## Interface: 90001
 ## Title: JustSpeedRun
-## Notes: 
+## Notes: A small addon to get a speedrun timer integrated with libDataBroker-1.1
 ## Author: RedSkiesReaperr
-## Version: 1.0.0
+## Version: 1.1.0
 ## SavedVariablesPerCharacter: JSRTimes, JSRTimerStatus, JSRTimerElapsed, JSRTimerHours, JSRTimerMins, JSRTimerSecs, JSRTimerMss
 
 ## X-Category: Quests & Leveling
