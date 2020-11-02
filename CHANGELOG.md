@@ -1,5 +1,10 @@
 # Changelogs
 
+## 1.1.1 (2020-11-02)
+
+- Add litte manual in addon listing with basic commands
+- On ADDON_LOADED done, Unregister event
+
 ## 1.1.0 (2020-11-01)
 
 - Add missing libs

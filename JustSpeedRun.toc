@@ -1,8 +1,8 @@
 ## Interface: 90001
 ## Title: JustSpeedRun
-## Notes: A small addon to get a speedrun timer integrated with libDataBroker-1.1
+## Notes: See your speedrun timer splitted & integrated with libDataBroker-1.1 |n|cffE57D06Available Commands: |n|r|cffE57D06    /jsr start -|r Start/Resume the timer |n|r|cffE57D06    /jsr pause -|r Pause the timer (can be resumed) |n|cffE57D06    /jsr stop -|r Stop the timer (will be resetted & cannot be resumed)
 ## Author: RedSkiesReaperr
-## Version: 1.1.0
+## Version: 1.1.1
 ## SavedVariablesPerCharacter: JSRTimes, JSRTimerStatus, JSRTimerElapsed, JSRTimerHours, JSRTimerMins, JSRTimerSecs, JSRTimerMss
 
 ## X-Category: Quests & Leveling
