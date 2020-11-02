@@ -111,4 +111,6 @@ function AddonLoadedHandler()
 	
 		table.insert(JSRTimes, newLvl)
 	end
+
+	JustSpeedRunFrame:UnregisterEvent("ADDON_LOADED")
 end
