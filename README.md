@@ -11,9 +11,6 @@ A small addon to get a speedrun timer that auto split at each level up & integra
 * **/jsr pause** : Pause the timer, can be resume by doing same command (You can get the same behavior by left clicking on dataobject)
 * **/jsr stop** : Stop & Reset the timer, can't be resumed (You can also right click on dataobject)
 
-### **Dependencies**
-* [**Ace3 AddOn**](https://www.curseforge.com/wow/addons/ace3 "Ace3") If you want to display JustSpeedRun infos in a nice Movable/Scalable Window. (Optionnal)
-
 ### **Bug reports & Feature requests**
 Bug reports and Features requests are welcomed. Feel free to create issues on the [GitHub project](https://github.com/RedSkiesReaperr/JustSpeedRun/) to submit them !
 
