@@ -1,45 +1,58 @@
-local ldb = LibStub:GetLibrary('LibDataBroker-1.1')
-local dataobj = ldb:NewDataObject("JustSpeedRun", {type = "data source", text = "timer"})
-local f = CreateFrame("frame")
-local elapsed, currCount, hours, mins, sec, ms = 0
-
 function AddonLoadedHandler()
+	local ldb = LibStub:GetLibrary('LibDataBroker-1.1')
+	local dataobj = ldb:NewDataObject("JustSpeedRun", {
+		type = "data source",
+		text = "timer",
+		OnClick = function(clickedframe, button)
+			OnClickDataObj(button)
+		end
+	})
+	local f = CreateFrame("frame")
+	local elapsed, currCount, hours, mins, sec, ms = 0
+
 	Log("Successfully loaded!")
 
-	if JSRTimes == nil then
-		JSRTimes = {}
-	end
+	Timer_Init()
 
+	local timerValues = nil
 	f:SetScript("OnUpdate", function(self, elap)
+		if JSRTimerElapsed ~= nil and elapsed <= 0 then
+			elapsed, hours, mins, sec, ms = JSRTimerElapsed, JSRTimerHours, JSRTimerMins, JSRTimerSecs, JSRTimerMss
+		end
+
 		if JSRTimerStatus == JSRStatus.STARTED then
 			elapsed = elapsed + elap
 			currCount = elapsed
 
-			hours = math.floor(currCount / 3600)
-			currCount = currCount - (hours * 3600)
+			timerValues = Timer_GetFromSeconds(elapsed)
+			currCount, hours, mins, sec, ms = timerValues.currCount, timerValues.hours, timerValues.mins, timerValues.secs, timerValues.mss
 
-			mins = math.floor(currCount / 60)
-			currCount = currCount - (mins * 60)
-
-			sec = math.floor(currCount / 1)
-			currCount = currCount - (sec * 1)
-
-			ms = math.floor(currCount * 1000)
-			currCount = currCount - (ms / 1000)
-
-			dataobj.text = string.format("%02dh %02dm %02.fs %03dms", hours, mins, sec, ms)
+			Timer_SyncUsing(elapsed, hours, mins, sec, ms)
+			dataobj.text = Timer_ToString(hours, mins, sec, ms)
 		elseif JSRTimerStatus == JSRStatus.PAUSED then
-			dataobj.text = string.format("PAUSED (%02dh %02dm %02.fs %03dms)", hours, mins, sec, ms)
+			dataobj.text = string.format("PAUSED (%s)", Timer_ToString(hours, mins, sec, ms))
 		elseif JSRTimerStatus == JSRStatus.STOPPED then
 			dataobj.text = "STOPPED"
 		end
 	end)
 
 	function dataobj:OnTooltipShow()
+		self:SetMinimumWidth(250)
+
 		self:AddLine("JustSpeedRun")
+		self:AddLine(" ")
+
+		self:AddDoubleLine("Left click", "Start/Pause timer", 0, 0.7, 0.8, 0, 0.7, 0.8)
+		self:AddDoubleLine("Right click", "Stop timer", 0, 0.7, 0.8, 0, 0.7, 0.8)
+		self:AddDoubleLine("Middle click", "Stop & immediatly restart timer", 0, 0.7, 0.8, 0, 0.7, 0.8)
+		self:AddLine(" ")
 
 		for k, v in ipairs(JSRTimes) do
-			self:AddLine(string.format( "Lvl %d: %s", v.lvl, v.time))
+			if v.lvl % 5 == 0 then
+				self:AddDoubleLine(string.format("Lvl %d:", v.lvl), string.format( "%s", v.time), 1, 0.82, 0, 1, 0.82, 0)
+			else
+				self:AddDoubleLine(string.format("Lvl %d:", v.lvl), string.format( "%s", v.time), 0.69, 0.59, 0.17, 0.69, 0.59, 0.17)
+			end
 		end
 	end
 
@@ -54,23 +67,48 @@ function AddonLoadedHandler()
 	function dataobj:OnLeave()
 		GameTooltip:Hide()
 	end
-end
 
-function ResetTimerVars()
-	elapsed, currCount, hours, mins, sec, ms = 0
-end
+	function OnClickDataObj(button)
+		if button == "LeftButton" then
+			if JSRTimerStatus == JSRStatus.STARTED then
+				Timer_Pause()
+			else
+				Timer_Start()
+			end
+		elseif button == "RightButton" then
+			if JSRTimerStatus ~= JSRStatus.STOPPED then
+				Timer_Stop()
+			end
+		elseif button == "MiddleButton" then
+			if JSRTimerStatus ~= JSRStatus.STOPPED then
+				Timer_Stop()
+			end
 
-function OnLevelUp(passed_lvl)
-	local tmpHours = hours
-	local tmpMins = mins
-	local tmpSec = sec
-	local tmpMs = ms
+			Timer_Start()
+		end
+	end
 
-	--Timer_Reset()
-	local newLvl = { 
-		lvl = passed_lvl,
-		time = string.format("%02dh %02dm %02.fs %03dms", tmpHours, tmpMins, tmpSec, tmpMs)
-	}
+	function ResetTmpTimerVars()
+		elapsed, currCount, hours, mins, sec, ms = 0
+	end
 
-	table.insert(JSRTimes, newLvl)
+	function OnLevelUp(passed_lvl)
+		if (passed_lvl >= 60) then -- If player reached the maximum level
+			Timer_Pause()
+		end
+
+		local tmpHours, tmpMins, tmpSec, tmpMs = hours, mins, sec, ms
+
+		Timer_Reset()
+		local newLvl = { 
+			lvl = passed_lvl,
+			hours = tmpHours,
+			mins = tmpMins,
+			secs = tmpSec,
+			mss = tmpMs,
+			time = Timer_ToString(tmpHours, tmpMins, tmpSec, tmpMs)
+		}
+	
+		table.insert(JSRTimes, newLvl)
+	end
 end
